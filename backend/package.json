@@ -4,7 +4,8 @@
   "description": "iText-Editor This text editor can do multiple task simultaneously",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "build": "npm i"
   },
   "author": "Ashwani",
   "license": "ISC",
