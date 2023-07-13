@@ -10,7 +10,7 @@ const Signup = () => {
   const navigate= useNavigate();
     const handleSubmit = async (e) => {
     e.preventDefault();
-    const response = await fetch("http://localhost:5000/api/auth/createuser", {
+    const response = await fetch("https://ashwani2529.github.io/createuser", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -39,7 +39,7 @@ const Signup = () => {
       
       //
       
-        const res= await fetch("http://localhost:5000/api/auth/sendmail",{
+        const res= await fetch("https://ashwani2529.github.io/sendmail",{
       method:'POST',
       headers:{
         "Content-Type":'application/json'
