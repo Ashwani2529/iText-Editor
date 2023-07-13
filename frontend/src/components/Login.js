@@ -6,7 +6,6 @@ import styles from "./indexing.module.css";
 const Login = () => {
   const [credentials, setCredentials] = useState({ email: "", password: "" });
   const navigate= useNavigate();
- const host=https 
   const handleSubmit = async (e) => {
     e.preventDefault();
     const response = await fetch("https://itext-editor.onrender.com/login", {
