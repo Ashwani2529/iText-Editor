@@ -1,0 +1,136 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@500&display=swap');
+
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+    font-family: 'poppins', sans-serif;
+}
+
+body {
+    background-color: black;
+    /* Add any additional styles */
+}
+
+.container {
+    width: 100%;
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 20px;
+}
+
+.sectional {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 86vh;
+    width: 100%;
+    background: url('img.jpg') no-repeat;
+    background-position: center;
+    background-size: cover;
+}
+
+.formed {
+    position: relative;
+    width: 100%;
+    max-width: 320px;
+    height: auto;
+    background: transparent;
+    border: 2px solid rgba(255, 255, 255, 0.5);
+    border-radius: 20px;
+    backdrop-filter: blur(18px);
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    overflow: hidden;
+    margin: 0 auto;
+    padding: 20px;
+}
+
+.h2 {
+    font-size: 1.91em;
+    color: rgb(209, 106, 10);
+    text-align: center;
+    text-decoration: overline;
+}
+
+.inputbox {
+    position: relative;
+    margin: 30px 0;
+    width: 100%;
+    border-bottom: 2px solid #fff;
+}
+
+.inputbox label {
+    position: absolute;
+    top: 50%;
+    left: 5px;
+    transform: translateY(-50%);
+    color: #fff;
+    font-size: 1em;
+    pointer-events: none;
+    transition: .5s;
+}
+
+input:focus ~ label,
+input:valid ~ label {
+    top: -5px;
+}
+
+.inputbox input {
+    width: 100%;
+    height: 50px;
+    background: transparent;
+    border: none;
+    outline: none;
+    font-size: 1em;
+    padding: 0 35px 0 5px;
+    color: #fff;
+}
+
+.inputbox ion-icon {
+    position: absolute;
+    right: 8px;
+    color: #fff;
+    font-size: 1.2em;
+    top: 15px;
+}
+
+.forget {
+    margin-bottom: 10px;
+    font-size: .9em;
+    color: #90cbe4;
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+}
+
+.forget label a {
+    margin-left: -2px;
+    color: #ee0000;
+    margin-right: -17px;
+    text-decoration: none;
+}
+
+.forget label a:hover {
+    text-decoration: underline;
+}
+
+.formed::before {
+    position: absolute;
+    width: 350%;
+    height: 350%;
+    content: normal;
+    background-image: conic-gradient(transparent, transparent, transparent, #5e5c585a);
+    animation: rotate_border 14s cubic-bezier(0.56, 0.01, 0.07, 0.8) infinite;
+}
+
+@keyframes rotate_border {
+    0% {
+        transform: rotate(0deg);
+    }
+    100% {
+        transform: rotate(360deg);
+    }
+}
