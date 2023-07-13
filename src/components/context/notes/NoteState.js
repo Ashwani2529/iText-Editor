@@ -1,7 +1,7 @@
 import notecontext from "./notecontext";
 import React, { useState } from "react";
 const NoteState = (props) => {
-  const host = "https://ashwani2529.github.io";
+  const host = "https://itext-editor.onrender.com";
   const initNotes = [];
   const [notes, setNotes] = useState(initNotes);
   //fetchNotes

@@ -6,10 +6,10 @@ import styles from "./indexing.module.css";
 const Login = () => {
   const [credentials, setCredentials] = useState({ email: "", password: "" });
   const navigate= useNavigate();
-//  const host=https 
+ const host=https 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    const response = await fetch("https://ashwani2529.github.io/login", {
+    const response = await fetch("https://itext-editor.onrender.com/api/auth/login", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
