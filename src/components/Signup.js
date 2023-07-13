@@ -6,11 +6,11 @@ import 'react-toastify/dist/ReactToastify.css';
     
 const Signup = () => {
   const [credentials, setCredentials] = useState({ name:"",email: "", password: "" ,gender:""});
-  
+  // const host="https://localhost:5000" 
   const navigate= useNavigate();
     const handleSubmit = async (e) => {
     e.preventDefault();
-    const response = await fetch("/api/auth/createuser", {
+    const response = await fetch("http://localhost:5000/api/auth/createuser", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -39,7 +39,7 @@ const Signup = () => {
       
       //
       
-        const res= await fetch("/api/auth/sendmail",{
+        const res= await fetch("http://localhost:5000/api/auth/sendmail",{
       method:'POST',
       headers:{
         "Content-Type":'application/json'
