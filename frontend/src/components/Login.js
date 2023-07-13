@@ -9,7 +9,7 @@ const Login = () => {
  const host=https 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    const response = await fetch("https://itext-editor.onrender.com/api/auth/login", {
+    const response = await fetch("https://itext-editor.onrender.com/login", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
