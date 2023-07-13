@@ -1,17 +1,17 @@
 {
   "files": {
-    "main.css": "/iText-Editor/static/css/main.9bf868a5.css",
-    "main.js": "/iText-Editor/static/js/main.d2a8338e.js",
+    "main.css": "/iText-Editor/static/css/main.df9be391.css",
+    "main.js": "/iText-Editor/static/js/main.495044af.js",
     "static/js/787.1ec06393.chunk.js": "/iText-Editor/static/js/787.1ec06393.chunk.js",
     "static/media/img.jpg": "/iText-Editor/static/media/img.85ebc26baf9fbf2b0d23.jpg",
     "static/media/YAZCHca-nature-wallpaper.jpg": "/iText-Editor/static/media/YAZCHca-nature-wallpaper.dec3aac0d61dbf2a79c6.jpg",
     "index.html": "/iText-Editor/index.html",
-    "main.9bf868a5.css.map": "/iText-Editor/static/css/main.9bf868a5.css.map",
-    "main.d2a8338e.js.map": "/iText-Editor/static/js/main.d2a8338e.js.map",
+    "main.df9be391.css.map": "/iText-Editor/static/css/main.df9be391.css.map",
+    "main.495044af.js.map": "/iText-Editor/static/js/main.495044af.js.map",
     "787.1ec06393.chunk.js.map": "/iText-Editor/static/js/787.1ec06393.chunk.js.map"
   },
   "entrypoints": [
-    "static/css/main.9bf868a5.css",
-    "static/js/main.d2a8338e.js"
+    "static/css/main.df9be391.css",
+    "static/js/main.495044af.js"
   ]
 }
