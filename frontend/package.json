@@ -1,6 +1,5 @@
 {
   "name": "itext-editor",
-  "homepage": "http://ashwani2529.github.io/iText-Editor",
   "version": "0.1.0",
   "private": true,
   "dependencies": {
