@@ -8,7 +8,8 @@ const Login = () => {
   const navigate= useNavigate();
   const handleSubmit = async (e) => {
     e.preventDefault();
-    const response = await fetch("https://itext-editor.onrender.com/login", {
+    const response = await fetch("http://localhost:5000/api/auth/login", {
+      
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -19,17 +20,15 @@ const Login = () => {
       }),
     });
     const json = await response.json();
-    console.log(json);
     if (json.success) {
       localStorage.setItem("token", json.hashcode);
       toast.success("Logged in Successfully",{ position: toast.POSITION.TOP_CENTER});
-      // props.showAlert("Logged in Successfully","success")
       navigate("/home");
     } 
       else{
-        // alert("fuck")
+      
         toast.error("Invalid Credentials",{position: toast.POSITION.TOP_CENTER});
-      // props.showAlert("Invalid credentials", "warning");
+     
     }    
   }
 

@@ -91,7 +91,6 @@ router.post(
     }
     const { email, password } = req.body;
     try {
-      console.log(req.body);
       let user = await User.findOne({ email });
       if (!user) {
         success=false;
@@ -107,9 +106,9 @@ router.post(
           id: user.id
         }
       }
-      console.log(data)
+
       const hashcode = jwt.sign(data, JWT);
-      console.log(hashcode);
+    
       success=true;
       res.json({ success,hashcode });
     } catch (error) {
