@@ -9,7 +9,7 @@ app.use(express.json());
 app.use("/api/auth", require("./routes/auth"));
 app.use("/api/notes", require("./routes/notes"));
 app.get("/", (req, res) => {
-  res.send("Prashant Chutiya");
+  res.send("Backend Live");
 });
 
 app.listen(port, () => {
