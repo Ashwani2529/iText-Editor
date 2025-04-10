@@ -1,4 +1,4 @@
-import React,{useEffect} from "react";
+import React from "react";
 import PropTypes from "prop-types";
 import "../index.css";
 import { toast } from 'react-toastify';
@@ -12,10 +12,6 @@ const Navbar=(props) =>{
     navigate('/login');
   }
   let location=useLocation();
-  useEffect(()=>{
-    console.log(location.pathname);
-  },[location]);
-  // const [text, setText] = useState('');
   return (
     // <di className="Nbody">
     <nav className={`navbar navbar-expand-lg navbar-${props.mode} bg-${props.mode}`}>
@@ -41,16 +37,10 @@ const Navbar=(props) =>{
                 {props.aboutText}
               </Link>
             </li>
-            {/* <li className="nav-item">
-              <Link className={`nav-link ${location.pathname==="/getuser"?"active":""}`} to="/getuser">
-                User
-              </Link>
-            </li> */}
-           
           </ul>
-          <div className={`form-check form-switch text-${props.mode==='light'?'dark':'light'}`}>
+          <div className={`form-check form-switch`}>
                         <input className="form-check-input" onClick={props.toggleMode} type="checkbox" id="flexSwitchCheckDefault"/>
-                        <label className="form-check-label" htmlFor="flexSwitchCheckDefault">Theme</label>
+                        <label className={`form-check-label text-${props.mode==='light'?'black':'white'}`} htmlFor="flexSwitchCheckDefault">Theme</label>
                     </div>
           {!localStorage.getItem('token')?<form className="d-flex mx-2"> 
           <Link className="btn btn-primary mx-1" to="/createuser" role="button">Signup</Link>

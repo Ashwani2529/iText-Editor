@@ -54,7 +54,7 @@ const AddNote=(props)=> {
         Content
       </label>
       <textarea
-        className="form-control"
+        className="form-control text-black"
         id="description"
         rows="12"
         onChange={onChange}

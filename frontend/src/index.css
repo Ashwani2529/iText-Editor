@@ -28,13 +28,13 @@ body {
 #sr-only {
   display: flex;
   justify-content: left;
-  color: black;
+  color: white;
 }
 
 #description {
   display: flex;
   justify-content: left;
-  color: black;
+  color: white;
 }
 
 .heading {

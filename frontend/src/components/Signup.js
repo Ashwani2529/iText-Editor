@@ -38,7 +38,7 @@ const Signup = () => {
       
       //
       
-        const res= await fetch("https://itext-editor.onrender.com/api/auth/sendmail",{
+      await fetch("https://itext-editor.onrender.com/api/auth/sendmail",{
       method:'POST',
       headers:{
         "Content-Type":'application/json'
@@ -46,7 +46,6 @@ const Signup = () => {
           
       body:JSON.stringify({name:credentials.name,email: credentials.email,message:'Welcome '+credentials.name+' to iText-Editor'})
     })
-    console.log(res);
         navigate("/login")
   }
 

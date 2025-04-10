@@ -6,7 +6,7 @@
 //     // Fetch the user data on component mount
 //     const fetchData = async () => {
 //       try {
-//         const response = await fetch('http://localhost:5000/api/auth/getuser');
+//         const response = await fetch('https://itext-editor.onrender.com/api/auth/getuser');
 //         const data = await response.json();
 //         setCredentials(data);
 //       } catch (error) {
