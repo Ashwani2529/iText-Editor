@@ -16,7 +16,7 @@ const UserSchema = new Schema({
    },
    gender:{
     type:String,
-    required:true
+    default:"Not specified"
    },
    date:{
     type:Date,

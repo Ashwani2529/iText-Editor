@@ -1,16 +1,49 @@
-# iText-Editor
-iText-Editor is a project that aims to provide users with a comprehensive text editor that can be accessed from anywhere and at any time. The editor includes all the properties of a Microsoft Word document, allowing users to create, edit, and format their text in a variety of ways.
+# iText Studio
 
-One of the key features of iText-Editor is the ability to save user content in the cloud. This means that users can access their documents from anywhere with an internet connection, and can continue working on their projects even if they switch devices or locations. To access their files, users simply need to log in to their account using their login details.
+iText Studio is a focused writing workspace for drafting, refining, analyzing,
+exporting, and keeping notes in the cloud.
 
-To get started with iText-Editor, users need to create an account by signing up on the website. The signup page collects basic user information such as name, email address, and password. Once the account is created, users can log in and start using the editor.
+## Highlights
 
-In addition to creating and editing documents, users can also import their own files into the editor. This allows them to continue working on projects they've started elsewhere, or to collaborate with others who might be using different software. Once a project is completed, users can download the text file to their computer or device.
+- Rich-text editing with clean formatting controls
+- Uppercase/lowercase transforms, copy, import, clear, and text download
+- Live word count, character count, reading time, and reader preview
+- Responsive cloud-note library with search, create, edit, and delete actions
+- Accessible light and dark themes saved between visits
+- Responsive layouts for phones, tablets, laptops, and wide screens
 
-iText-Editor also includes an About page, which provides information about the project and its creators. The page serves as a resource for users who want to learn more about the editor and its features.
+## Start the frontend
 
-Finally, the editor includes a Theme tab that allows users to change the appearance of the page. This feature is particularly useful for those who want to customize their workspace or who have difficulty reading text on certain backgrounds.
+```sh
+cd frontend
+npm install
+npm start
+```
 
-One additional feature that sets iText-Editor apart from other text editors is the greeting mail sent to the user after signing up. This is a small touch that makes the experience of using the editor feel more personal and welcoming.
+The frontend uses the hosted API by default. For a local API, create
+`frontend/.env` with:
 
-Overall, iText-Editor is a powerful and user-friendly text editor that offers a wide range of features and capabilities. Whether you're a writer, student, or professional, iText-Editor has something to offer.
+```env
+REACT_APP_API_URL=http://localhost:5000
+```
+
+## Start the backend
+
+Copy `backend/.env.example` to `backend/.env`, add your own MongoDB connection
+string and a long random JWT secret, then run:
+
+```sh
+cd backend
+npm install
+npm run dev
+```
+
+Never commit real database passwords or other credentials. The included
+`.env.example` contains placeholders only.
+
+## Production build
+
+```sh
+cd frontend
+npm run build
+```

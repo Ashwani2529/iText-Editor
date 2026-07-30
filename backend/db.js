@@ -1,10 +1,14 @@
 const mongoose = require("mongoose");
-mongoose.set('strictQuery', true);
-const mongoURI =
-  "mongodb+srv://Ashwani:OlLzbeb9pr6PHIFz@itext-editor.7gtbgbr.mongodb.net/Users";
-const connectToMongo = () => {
-  mongoose.connect(mongoURI, () => {
-    console.log("Connected to mongoDB");
-  });
-};
+
+mongoose.set("strictQuery", true);
+
+async function connectToMongo() {
+  const mongoURI = process.env.MONGO_URI;
+  if (!mongoURI) {
+    throw new Error("MONGO_URI is required. Add it to your backend environment before starting.");
+  }
+  await mongoose.connect(mongoURI);
+  console.log("Connected to MongoDB");
+}
+
 module.exports = connectToMongo;

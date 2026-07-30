@@ -1,72 +1,74 @@
-import React,{useContext,useState} from 'react';
-import "../index.css";
+import { useContext, useState } from "react";
 import notecontext from "./context/notes/notecontext";
-const AddNote=(props)=> {
-    const context = useContext(notecontext);
-  const {addNote } = context;
-  const [note, setNote]= useState({title:"",tag:"",description:""})
-  const handleClick=(e)=>{
-    e.preventDefault();
-    addNote(note.title,note.tag,note.description);
-    setNote({title: "",  tag: "",description: ""});
-    props.showAlert("File Added","success");
-  }
-  const onChange=(e)=>{
-    setNote({...note,[e.target.id]:e.target.value,[e.target.name]:e.target.value})
-  }
-  return (
-  <>
-    <div className="container my-5">
-    <h1 className="heading">
-      <b>Save Your Files</b>
-    </h1>
-  </div>
-  <div className='container'>
-  <form id="form">
-    <div className="col-sm-3 mx-1">
-      <label id="sr-only" htmlFor="title">
-        Title
-      </label>
-      <input
-        type="text"
-        className="form-control"
-        id="title"
-        placeholder=""
-        onChange={onChange}
-        required
-      />
-    </div>
-    <div className="col-sm-4 mx-1 my-4">
-      <label id="sr-only" htmlFor="tag" >
-        Tags
-      </label>
-      <input
-        type="text"
-        className="form-control"
-        id="tag"
-        placeholder="#"
-        onChange={onChange}
-        
-        />
-    </div>
-    <div className="form-group col-sm-8 my-4">
-      <label id="description" htmlFor="description" >
-        Content
-      </label>
-      <textarea
-        className="form-control text-black"
-        id="description"
-        rows="12"
-        onChange={onChange}
-        required
-      ></textarea>
-    </div>
-    <button type="submit" className="btn btn-primary my-1" onClick={handleClick}>
-      Save
-    </button>
-  </form>
-  </div></>
-  )
-}
 
-export default AddNote
+export default function AddNote({ onClose, showAlert }) {
+  const { addNote } = useContext(notecontext);
+  const [note, setNote] = useState({ title: "", tag: "", description: "" });
+  const [saving, setSaving] = useState(false);
+
+  const onChange = (event) => {
+    setNote((current) => ({ ...current, [event.target.name]: event.target.value }));
+  };
+
+  const handleSubmit = async (event) => {
+    event.preventDefault();
+    setSaving(true);
+    try {
+      await addNote(note.title.trim(), note.tag.trim(), note.description.trim());
+      showAlert("Note added to your library");
+      onClose();
+    } catch (error) {
+      showAlert(error.message || "Your note could not be saved", "danger");
+    } finally {
+      setSaving(false);
+    }
+  };
+
+  return (
+    <form className="note-form" onSubmit={handleSubmit}>
+      <div className="field">
+        <label htmlFor="note-title">Title</label>
+        <input
+          id="note-title"
+          name="title"
+          value={note.title}
+          onChange={onChange}
+          placeholder="Give this note a clear name"
+          minLength={3}
+          maxLength={100}
+          autoFocus
+          required
+        />
+      </div>
+      <div className="field">
+        <label htmlFor="note-tag">Tag <span className="optional">(optional)</span></label>
+        <input
+          id="note-tag"
+          name="tag"
+          value={note.tag}
+          onChange={onChange}
+          placeholder="Ideas, work, personal…"
+          maxLength={40}
+        />
+      </div>
+      <div className="field">
+        <label htmlFor="note-description">Note</label>
+        <textarea
+          id="note-description"
+          name="description"
+          value={note.description}
+          onChange={onChange}
+          placeholder="Capture the thought before it disappears…"
+          minLength={3}
+          required
+        />
+      </div>
+      <div className="modal-actions">
+        <button type="button" className="btn-ui" onClick={onClose}>Cancel</button>
+        <button type="submit" className="btn-ui btn-primary-ui" disabled={saving}>
+          {saving ? "Saving…" : "Save note"}
+        </button>
+      </div>
+    </form>
+  );
+}

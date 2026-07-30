@@ -1,107 +1,77 @@
-import React from "react";
-import "../index.css";
-export default function About(props) {
-  let myStyle = {
-    color: props.mode === "dark" ? "white" : "#042743",
-    backgroundColor: props.mode === "dark" ? "rgb(36 74 104)" : "white",
-  };
- 
-  
-  return (
-    <div className="container">
-      <h1
-        className="my-3"
-        style={{ backgroundcolor: props.mode === "dark" ? "white" : "#042743" }}
-      >
+import { Link } from "react-router-dom";
 
-        This is our About Page
-      </h1>
-      <div className="accordion" id="accordionExample">
-        <div className="accordion-item">
-          <h2 className="accordion-header" id="headingOne">
-            <button
-              className="accordion-button"
-              type="button"
-              style={myStyle}
-              data-bs-toggle="collapse"
-              data-bs-target="#collapseOne"
-              aria-expanded="true"
-              aria-controls="collapseOne"
-            >
-              <strong>Analyze Your text </strong>
-            </button>
-          </h2>
-          <div
-            id="collapseOne"
-            className="accordion-collapse collapse show"
-            aria-labelledby="headingOne"
-            data-bs-parent="#accordionExample"
-          >
-            <div className="accordion-body" style={myStyle}>
-              Hell O guyz, A$H here, that's it{" "}
-              <span role="img" aria-label="smiley face">
-                🗿🗿🗿
-              </span>
-            </div>
+const features = [
+  {
+    number: "01",
+    title: "A calmer writing surface",
+    copy: "A focused editor with just enough structure to help ideas flow—never a wall of controls.",
+  },
+  {
+    number: "02",
+    title: "Useful insight, instantly",
+    copy: "Word count, character count, and reading time update as your draft changes.",
+  },
+  {
+    number: "03",
+    title: "Your notes, within reach",
+    copy: "Save important fragments to your private cloud library and return to them from any screen.",
+  },
+];
+
+export default function About() {
+  return (
+    <div className="about-page page-wrap">
+      <section className="about-hero">
+        <span className="eyebrow">Why iText exists</span>
+        <h1 className="page-title">
+          Better writing begins with <span className="gradient-text">less noise.</span>
+        </h1>
+        <p className="page-lead">
+          iText Studio is a lightweight writing companion for everyday thinking—notes, drafts,
+          captions, essays, and the half-formed ideas that deserve somewhere beautiful to grow.
+        </p>
+        <div className="about-actions">
+          <Link to="/" className="btn-ui btn-primary-ui">Open the editor →</Link>
+          <Link to="/home" className="btn-ui">Explore cloud notes</Link>
+        </div>
+      </section>
+
+      <section className="manifesto-card">
+        <div className="manifesto-index">Our point of view</div>
+        <blockquote>
+          “The best writing tool should feel less like software and more like a clear desk.”
+        </blockquote>
+        <p>
+          That means fast interactions, readable typography, honest controls, and no unnecessary
+          friction between a thought and the finished sentence.
+        </p>
+      </section>
+
+      <section className="feature-section">
+        <div className="section-heading">
+          <div>
+            <span className="eyebrow">Made for momentum</span>
+            <h2>Everything you need. Nothing you don’t.</h2>
           </div>
         </div>
-        <div className="accordion-item">
-          <h2 className="accordion-header" id="headingTwo">
-            <button
-              className="accordion-button collapsed"
-              style={myStyle}
-              type="button"
-              data-bs-toggle="collapse"
-              data-bs-target="#collapseTwo"
-              aria-expanded="false"
-              aria-controls="collapseTwo"
-            >
-              <strong>Free to use </strong>
-            </button>
-          </h2>
-          <div
-            id="collapseTwo"
-            className="accordion-collapse collapse"
-            aria-labelledby="headingTwo"
-            data-bs-parent="#accordionExample"
-          >
-            <div className="accordion-body" style={myStyle}>
-              TextUtils is a free character counter tool that provides instant
-              character count & word count statistics for a given text.
-              TextUtils reports the number of words and characters. Thus it is
-              suitable for writing text with word/ character limit.
-            </div>
-          </div>
+        <div className="feature-grid">
+          {features.map((feature) => (
+            <article className="feature-card" key={feature.number}>
+              <span>{feature.number}</span>
+              <h3>{feature.title}</h3>
+              <p>{feature.copy}</p>
+            </article>
+          ))}
         </div>
-        <div className="accordion-item">
-          <h2 className="accordion-header" id="headingThree">
-            <button
-              className="accordion-button collapsed"
-              style={myStyle}
-              type="button"
-              data-bs-toggle="collapse"
-              data-bs-target="#collapseThree"
-              aria-expanded="false"
-              aria-controls="collapseThree"
-            >
-              <strong>Browser Compatible </strong>
-            </button>
-          </h2>
-          <div
-            id="collapseThree"
-            className="accordion-collapse collapse"
-            aria-labelledby="headingThree"
-            data-bs-parent="#accordionExample"
-          >
-            <div className="accordion-body" style={myStyle}>
-              This word counter software works in any web browsers such as
-              Chrome, Firefox, Internet Explorer, Safari, Opera. It suits to
-              count characters in facebook, blog, books, excel document, pdf
-              document, essays, etc.
-            </div>
-          </div>
+      </section>
+
+      <section className="about-cta">
+        <div>
+          <span className="eyebrow">Start where you are</span>
+          <h2>Your next clear sentence is waiting.</h2>
         </div>
-      </div>
+        <Link to="/" className="btn-ui btn-primary-ui">Start writing</Link>
+      </section>
     </div>
   );
 }

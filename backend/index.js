@@ -1,12 +1,13 @@
+require("dotenv").config();
 const connectToMongo = require("./db.js");
 var express = require("express");
 var cors=require('cors')
-connectToMongo();
 const app = express();
-const port = 5000;
+const port = process.env.PORT || 5000;
+const allowedOrigin = process.env.FRONTEND_URL || "http://localhost:3000";
 app.use(cors(
   {
-    origin: '*',
+    origin: allowedOrigin,
     methods: ['GET', 'POST', 'PUT', 'DELETE', 'PATCH'],
     credentials: true
   }
@@ -18,6 +19,11 @@ app.get("/", (req, res) => {
   res.send("Backend Live");
 });
 
-app.listen(port, () => {
- 
-});
+connectToMongo()
+  .then(() => {
+    app.listen(port, () => console.log(`iText API listening on port ${port}`));
+  })
+  .catch((error) => {
+    console.error(error.message);
+    process.exit(1);
+  });

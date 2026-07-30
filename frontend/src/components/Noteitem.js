@@ -1,33 +1,37 @@
-import React, { useContext } from "react";
-import "../index.css";
+import { useContext, useState } from "react";
 import notecontext from "./context/notes/notecontext";
 
-const Noteitem = (props) => {
-  const context=useContext(notecontext);
-  const { note,updateNote} = props;
-  const {deleteNote} = context;
+export default function Noteitem({ note, onEdit, showAlert }) {
+  const { deleteNote } = useContext(notecontext);
+  const [deleting, setDeleting] = useState(false);
+
+  const remove = async () => {
+    if (!window.confirm(`Delete “${note.title}”? This cannot be undone.`)) return;
+    setDeleting(true);
+    try {
+      await deleteNote(note._id);
+      showAlert("Note deleted", "warning");
+    } catch (error) {
+      showAlert(error.message || "That note could not be deleted", "danger");
+      setDeleting(false);
+    }
+  };
+
   return (
-    <div className="col-md-3">
-      <div className="card">
-        <div className="card-body">
-          <p>
-            <b className="boldy">Title:- </b>
-            {note.title}
-          </p>
-          <p>
-            <b className="boldy">Tag:-</b>
-            {note.tag}
-          </p>
-          <p>
-            <b className="boldy">Content:-</b>
-            {note.description}
-          </p>
-          <i className="far fa-trash-alt" onClick={()=>{deleteNote(note._id);props.showAlert("Deleted","success");}}></i>
-          <i className="far fa-edit" onClick={()=>{updateNote(note);}}></i>
+    <article className="note-card">
+      <div className="note-card-top">
+        <span className="note-tag">{note.tag || "Untagged"}</span>
+        <div className="note-menu" aria-label={`Actions for ${note.title}`}>
+          <button type="button" className="icon-button" onClick={() => onEdit(note)} aria-label={`Edit ${note.title}`} title="Edit note">✎</button>
+          <button type="button" className="icon-button delete-button" onClick={remove} disabled={deleting} aria-label={`Delete ${note.title}`} title="Delete note">⌫</button>
         </div>
       </div>
-    </div>
+      <h3>{note.title}</h3>
+      <p>{note.description}</p>
+      <div className="note-card-footer">
+        <span>{note.description?.trim().split(/\s+/).filter(Boolean).length || 0} words</span>
+        <button type="button" onClick={() => onEdit(note)}>Open note →</button>
+      </div>
+    </article>
   );
-};
-
-export default Noteitem;
+}

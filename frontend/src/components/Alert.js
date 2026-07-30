@@ -1,17 +1,18 @@
-import React from 'react'
+import { useEffect } from "react";
 
-function Alert(props) {
-    //justacomment
-    const capitalize = (word)=>{
-        const lower = word.toLowerCase();
-        return lower.charAt(0).toUpperCase() + lower.slice(1);
-    }
-    return (
-        <div style={{height: '40px',backgroundColor:'black'}}>
-        {props.alert && <div style={{height: '40px'}} className={`alert alert-${props.alert.type} alert-dismissible fade show`} role="alert">
-           <strong>{capitalize(props.alert.type)}</strong>: {props.alert.msg} 
-        </div>}
-        </div>
-    )
+export default function Alert({ alert, onDismiss }) {
+  useEffect(() => {
+    if (!alert) return undefined;
+    const timer = window.setTimeout(onDismiss, 2800);
+    return () => window.clearTimeout(timer);
+  }, [alert, onDismiss]);
+
+  if (!alert) return null;
+  return (
+    <div className={`app-alert alert-${alert.type}`} role="status">
+      <span aria-hidden="true">{alert.type === "danger" ? "!" : alert.type === "warning" ? "i" : "✓"}</span>
+      <p>{alert.msg}</p>
+      <button type="button" onClick={onDismiss} aria-label="Dismiss notification">×</button>
+    </div>
+  );
 }
-export default Alert

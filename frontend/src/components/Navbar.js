@@ -1,64 +1,87 @@
-import React from "react";
-import PropTypes from "prop-types";
-import "../index.css";
-import { toast } from 'react-toastify';
-import 'react-toastify/dist/ReactToastify.css';
-import { Link, useLocation, useNavigate } from "react-router-dom";
-const Navbar=(props) =>{
-  let navigate=useNavigate();
-  const handleLogout=()=>{
-    toast.info("Logged out",{position: toast.POSITION.TOP_CENTER});
-    localStorage.removeItem('token');
-    navigate('/login');
-  }
-  let location=useLocation();
+import { useEffect, useState } from "react";
+import { Link, NavLink, useLocation, useNavigate } from "react-router-dom";
+import { toast } from "react-toastify";
+
+const navItems = [
+  { to: "/", label: "Editor" },
+  { to: "/home", label: "Cloud notes" },
+  { to: "/about", label: "About" },
+];
+
+export default function Navbar({ mode, toggleMode }) {
+  const [open, setOpen] = useState(false);
+  const location = useLocation();
+  const navigate = useNavigate();
+  const isLoggedIn = Boolean(localStorage.getItem("token"));
+
+  useEffect(() => setOpen(false), [location.pathname]);
+
+  const handleLogout = () => {
+    localStorage.removeItem("token");
+    toast.info("You’re safely signed out");
+    navigate("/login");
+  };
+
   return (
-    // <di className="Nbody">
-    <nav className={`navbar navbar-expand-lg navbar-${props.mode} bg-${props.mode}`}>
-      <div className="container-fluid">
-      <Link className="navbar-brand" to="/">{props.title}</Link>
-                <button className="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-                    <span className="navbar-toggler-icon"></span>
-                </button>
-        <div className="collapse navbar-collapse" id="navbarSupportedContent">
-          <ul className="navbar-nav me-auto mb-2 mb-lg-0">
-            <li className="nav-item">
-              <Link className={`nav-link ${location.pathname==="/"?"active":""}`} aria-current="page" to="/">
-                Home
-              </Link>
-            </li>
-            <li className="nav-item">
-              <Link className={`nav-link ${location.pathname==="/home"?"active":""}`} to="/home">
-               <u> <b>Save to Cloud</b></u>
-              </Link>
-            </li>
-            <li className="nav-item">
-              <Link className={`nav-link ${location.pathname==="/about"?"active":""}`} to="/about">
-                {props.aboutText}
-              </Link>
-            </li>
-          </ul>
-          <div className={`form-check form-switch`}>
-                        <input className="form-check-input" onClick={props.toggleMode} type="checkbox" id="flexSwitchCheckDefault"/>
-                        <label className={`form-check-label text-${props.mode==='light'?'black':'white'}`} htmlFor="flexSwitchCheckDefault">Theme</label>
-                    </div>
-          {!localStorage.getItem('token')?<form className="d-flex mx-2"> 
-          <Link className="btn btn-primary mx-1" to="/createuser" role="button">Signup</Link>
-                    <Link className="btn btn-primary mx-1" to="/login" role="button">Login</Link>
-                    </form>: <button onClick={handleLogout} className="btn btn-primary">Logout</button>}
+    <header className="topbar">
+      <nav className="nav-shell" aria-label="Primary navigation">
+        <Link className="brand" to="/" aria-label="iText Studio home">
+          <span className="brand-mark" aria-hidden="true">iT</span>
+          <span>
+            <strong>iText</strong>
+            <small>STUDIO</small>
+          </span>
+        </Link>
+
+        <button
+          className="nav-menu-button"
+          type="button"
+          aria-label={open ? "Close navigation" : "Open navigation"}
+          aria-expanded={open}
+          onClick={() => setOpen((value) => !value)}
+        >
+          <span />
+          <span />
+        </button>
+
+        <div className={`nav-content ${open ? "is-open" : ""}`}>
+          <div className="nav-links">
+            {navItems.map((item) => (
+              <NavLink
+                key={item.to}
+                to={item.to}
+                end={item.to === "/"}
+                className={({ isActive }) => `nav-link-ui ${isActive ? "active" : ""}`}
+              >
+                {item.label}
+              </NavLink>
+            ))}
+          </div>
+
+          <div className="nav-actions">
+            <button
+              type="button"
+              className="theme-toggle"
+              onClick={toggleMode}
+              aria-label={`Switch to ${mode === "light" ? "dark" : "light"} theme`}
+              title={`Switch to ${mode === "light" ? "dark" : "light"} theme`}
+            >
+              <span className="theme-track">
+                <span className="theme-thumb">{mode === "light" ? "☀" : "☾"}</span>
+              </span>
+              <span>{mode === "light" ? "Light" : "Dark"}</span>
+            </button>
+            {isLoggedIn ? (
+              <button className="btn-ui" type="button" onClick={handleLogout}>Sign out</button>
+            ) : (
+              <>
+                <Link className="nav-login" to="/login">Log in</Link>
+                <Link className="btn-ui btn-primary-ui" to="/createuser">Get started</Link>
+              </>
+            )}
+          </div>
         </div>
-      </div>
-    </nav>
+      </nav>
+    </header>
   );
 }
-
-Navbar.propTypes = {
-  title: PropTypes.string.isRequired,
-  aboutText: PropTypes.string.isRequired,
-};
-
-Navbar.defaultProps = {
-  title: "iText-Editor",
-  aboutText: "About",
-};
-export default Navbar;

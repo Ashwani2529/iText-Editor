@@ -5,15 +5,14 @@ var jwt = require("jsonwebtoken");
 const fetchUser = require("../middleware/fetchUser");
 const { body, validationResult } = require("express-validator");
 const router = express.Router();
-const nodemailer = require('nodemailer');
-const JWT = "Ashwani is a good man";
+const JWT = process.env.JWT_SECRET || "replace-this-development-secret";
 router.post(
   "/createuser",
   [
     body("name").isLength({ min: 3 }),
     body("email").isEmail(),
     body("password").isLength({ min: 5 }),
-    body("gender").isLength({ min: 3 }),
+    body("gender").optional({ checkFalsy: true }).isLength({ min: 2 }),
   ],
   async (req, res) => {
     let success=false; 
@@ -32,7 +31,7 @@ router.post(
         name: req.body.name,
         email: req.body.email,
         password: securePass,
-        gender: req.body.gender
+        gender: req.body.gender || "Not specified"
       });
       const data = {
         user: {
@@ -42,7 +41,7 @@ router.post(
       const hashcode = jwt.sign(data, JWT);
     
       success=true;
-      res.status(200).json(hashcode);
+      res.status(201).json({ success, hashcode });
      
     } catch (error) {
       console.error(error.message);
@@ -50,32 +49,6 @@ router.post(
     }
   }
 );
-//sendMail
-router.post('/sendmail', async (req, res) => {
-  const {name,email,message}=req.body;
-  let transporter = nodemailer.createTransport({
-    service: 'gmail',
-    port: 465,
-    secure:false,
-    auth: {
-      user: 'ashwanix2749@gmail.com',
-      pass: 'jvhuuryeuxcyecks'
-    }
-  });
-  let mailOptions = {
-    from: "ashwanix2749@gmail.com",
-    to: email,
-    subject: 'Email from '+ "Ashwani",
-    text:message,
-  };
-
-  transporter.sendMail(mailOptions, (error, info) => {
-    if (error) {
-      res.status(400).json({});
-    } else {
-      res.status(200).json({});
-    }
-  })})
 //login
 router.post(
   "/login",
@@ -121,7 +94,7 @@ router.post(
 router.post("/getuser", fetchUser, async (req, res) => {
   try {
     const userId = req.user.id;
-    const user = await User.findById(userId).select("password")
+    const user = await User.findById(userId).select("-password")
     res.send(user);
   } catch (error) {
     console.error(error.message);

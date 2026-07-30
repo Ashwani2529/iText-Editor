@@ -1,72 +1,70 @@
+import { useCallback, useMemo, useState } from "react";
+import { API_URL } from "../../../config";
 import notecontext from "./notecontext";
-import React, { useState } from "react";
-const NoteState = (props) => {
-  const host = "https://itext-editor.onrender.com";
-  const initNotes = [];
-  const [notes, setNotes] = useState(initNotes);
-  //fetchNotes
-  const getNotes = async () => {
-    const response = await fetch(`${host}/api/notes/fetchallnotes`, {
-      method: "GET",
-      headers: {
-        "Content-Type": "application/json",
-        "auth-token":localStorage.getItem('token')
-      }
-    });
-    const json = await response.json();
-    setNotes(json);
-  };
-  //Add Note
-  const addNote = async (title, tag, description) => {
-    const response = await fetch(`${host}/api/notes/addnote`, {
+
+async function apiRequest(path, options = {}) {
+  const response = await fetch(`${API_URL}${path}`, {
+    ...options,
+    headers: {
+      "Content-Type": "application/json",
+      "auth-token": localStorage.getItem("token") || "",
+      ...options.headers,
+    },
+  });
+  let data = null;
+  try {
+    data = await response.json();
+  } catch {
+    // Some successful delete endpoints do not return JSON.
+  }
+  if (!response.ok) {
+    throw new Error(data?.error || data?.message || "The server could not complete that request");
+  }
+  return data;
+}
+
+export default function NoteState({ children }) {
+  const [notes, setNotes] = useState([]);
+  const [loading, setLoading] = useState(false);
+
+  const getNotes = useCallback(async () => {
+    setLoading(true);
+    try {
+      const data = await apiRequest("/api/notes/fetchallnotes", { method: "GET" });
+      setNotes(Array.isArray(data) ? data : []);
+    } finally {
+      setLoading(false);
+    }
+  }, []);
+
+  const addNote = useCallback(async (title, tag, description) => {
+    const note = await apiRequest("/api/notes/addnote", {
       method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-        "auth-token":localStorage.getItem('token')      },
       body: JSON.stringify({ title, tag, description }),
     });
-    const note = await response.json();
-    setNotes([...notes, note]);
-  };
-  //Delete Note
-  const deleteNote = async (id) => {
-    await fetch(`${host}/api/notes/deletenote/${id}`, {
-      method: "DELETE",
-      headers: {
-        "Content-Type": "application/json",
-        "auth-token":localStorage.getItem('token')      }
-    });
-    const newNotes = notes.filter((note) => {
-      return note._id !== id
-    })
-    setNotes(newNotes);
-  };
-  //Edit Note
-  const editNote = async (id, title, tag, description) => {
-   await fetch(`${host}/api/notes/updatenote/${id}`, {
+    setNotes((current) => [note, ...current]);
+    return note;
+  }, []);
+
+  const deleteNote = useCallback(async (id) => {
+    await apiRequest(`/api/notes/deletenote/${id}`, { method: "DELETE" });
+    setNotes((current) => current.filter((note) => note._id !== id));
+  }, []);
+
+  const editNote = useCallback(async (id, title, tag, description) => {
+    await apiRequest(`/api/notes/updatenote/${id}`, {
       method: "PUT",
-      headers: {
-        "Content-Type": "application/json",
-        "auth-token":localStorage.getItem('token')      },
-      body: JSON.stringify({ title, tag, description })
+      body: JSON.stringify({ title, tag, description }),
     });
-    let newNotes = JSON.parse(JSON.stringify(notes));
-    for (let index = 0; index < newNotes.length; index++) {
-      const element = newNotes[index];
-      if (element._id === id) {
-        newNotes[index].title = title;
-        newNotes[index].tag = tag;
-        newNotes[index].description = description;
-        break;
-      }
-    }
-    setNotes(newNotes);
-  }
-  return (
-    <notecontext.Provider
-      value={{ notes, addNote, deleteNote, editNote, getNotes }}>
-      {props.children}
-    </notecontext.Provider>
-  )
+    setNotes((current) => current.map((note) =>
+      note._id === id ? { ...note, title, tag, description } : note
+    ));
+  }, []);
+
+  const value = useMemo(
+    () => ({ notes, loading, addNote, deleteNote, editNote, getNotes }),
+    [notes, loading, addNote, deleteNote, editNote, getNotes]
+  );
+
+  return <notecontext.Provider value={value}>{children}</notecontext.Provider>;
 }
-export default NoteState;
