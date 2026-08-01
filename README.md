@@ -1,6 +1,6 @@
-# iText Studio
+# iText Editor
 
-iText Studio is a focused writing workspace for drafting, refining, analyzing,
+iText Editor is a focused writing workspace for drafting, refining, analyzing,
 exporting, and keeping notes in the cloud.
 
 ## Highlights

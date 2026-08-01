@@ -1,6 +1,6 @@
 {
-  "short_name": "iText",
-  "name": "iText Studio",
+  "short_name": "iText Editor",
+  "name": "iText Editor",
   "icons": [
     {
       "src": "favicon.ico",
